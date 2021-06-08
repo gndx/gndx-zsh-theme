@@ -7,7 +7,7 @@ An oh-my-zsh theme.
 ## Installation
  1. Write in your terminal `git clone https://github.com/gndx/gndx-zsh-theme/ $ZSH_CUSTOM/themes/gndx-zsh-theme`
  2. Open your `.zshrc`
- 3. Change your `ZSH_THEME` to *`gndx-zsh-theme/macos-theme`* 
+ 3. Change your `ZSH_THEME` to *`gndx-zsh-theme/gndx-theme`* 
 
 REF: [Oh-My-Zsh External themes](https://github.com/ohmyzsh/ohmyzsh/wiki/External-themes)
 
