@@ -110,5 +110,4 @@ TRAPALRM() {
     fi
 }
 
-PROMPT='$(directory)$(docker_container_count)$(docker_image_count)$(git_status)$(node_version)$(command_status)'
 PROMPT='$(directory)$(docker_container_count)$(docker_image_count)$(git_status)$(node_version)$(pending_migrations)$(command_status)'
