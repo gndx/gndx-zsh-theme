@@ -1,9 +1,8 @@
 function real_time() {
     local color="%{$fg_no_bold[cyan]%}";
     local color2="%{$fg_no_bold[yellow]%}";
-    local rocket="🚀";
     local color_reset="%{$reset_color%}";
-    echo "${color}🧔🏻 ${color_reset} ${rocket} ${color}${color_reset}";
+    echo "${color}${color_reset} ${color}${color_reset}";
 }
 
 function directory() {
@@ -14,18 +13,10 @@ function directory() {
 }
 
 function node_version() {
-    local color="%{$fg_no_bold[yellow]%}";
+    local color="%{$fg_no_bold[green]%}"
     local version=$(node --version);
     local color_reset="%{$reset_color%}";
-    echo "${color}⬢ Node.js ${version}${color_reset}";
-}
-
-function environment_info() {
-    local project_name="MiProyecto"
-    local environment="Desarrollo"
-    local color="%{$fg_no_bold[magenta]%}"
-    local color_reset="%{$reset_color%}"
-    echo "${color}🌟 ${project_name} (${environment})${color_reset}"
+    echo "${color} ⬢ Node ${version}${color_reset}";
 }
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_no_bold[red]%}[%{$fg_no_bold[yellow]%}";
@@ -121,4 +112,4 @@ TRAPALRM() {
     fi
 }
 
-PROMPT='$(real_time) $(directory) $(git_status) $(node_version) $(environment_info) $(command_status) '
+PROMPT='$(real_time) $(directory) $(git_status) $(node_version) $(command_status) '

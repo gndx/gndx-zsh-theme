@@ -5,7 +5,7 @@ An oh-my-zsh theme.
 ![gndx zsh theme](https://raw.githubusercontent.com/gndx/gndx-zsh-theme/master/screenshot.png)
 
 ## Installation
- 1. Write in your terminal `git clone https://github.com/natividev/gndx-zsh-theme.git`
+ 1. Write in your terminal ` git clone https://github.com/natividev/gndx-zsh-theme.git/ $ZSH_CUSTOM/themes/gndx-zsh-theme`
  2. Open your `.zshrc`
  3. Change your `ZSH_THEME` to *`gndx-zsh-theme/gndx`* 
 
