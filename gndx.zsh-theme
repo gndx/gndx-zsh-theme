@@ -50,15 +50,6 @@ function command_status() {
     echo "${COMMAND_STATUS}"
 }
 
-function command_duration() {
-    local duration="%{$fg_no_bold[white]%}⏱"
-    local color_reset="%{$reset_color%}"
-    local end_time=$(date +%s)
-    local duration_seconds=$((end_time - COMMAND_TIME_BEGIN))
-    local duration_formatted=$(TZ=UTC0 printf '%(%H:%M:%S)T' $duration_seconds)
-    echo "${duration}${duration_formatted}${color_reset} "
-}
-
 output_command_execute_after() {
     if [ "$COMMAND_TIME_BEGIN" = "" ]; then
         COMMAND_TIME_BEGIN=$(date +%s)
@@ -111,4 +102,4 @@ TRAPALRM() {
     fi
 }
 
-PROMPT='$(command_duration) $(real_time) $(directory) $(git_status) $(node_version) $(command_status)'
+PROMPT='$(real_time) $(directory) $(git_status) $(node_version) $(command_status)'
