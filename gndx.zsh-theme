@@ -92,9 +92,6 @@ precmd() {
     update_command_status $last_cmd_result
 
     output_command_execute_after $last_cmd_result
-
-    docker_container_count
-    docker_image_count
 }
 
 setopt PROMPT_SUBST
