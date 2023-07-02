@@ -1,22 +1,9 @@
 function real_time() {
     local color="%{$fg_no_bold[cyan]%}";
     local color2="%{$fg_no_bold[yellow]%}";
-    local time="[$(date +%H:%M)]";
+    local rocket="🚀";
     local color_reset="%{$reset_color%}";
-    echo "${color}🧔🏻$(host_name)${color_reset} 🤖 ${color}${time}${color_reset}";
-}
-
-function host_name() {
-    local color="%{$fg_no_bold[cyan]%}";                    # color in PROMPT need format in %{XXX%} which is not same with echo
-    local ip
-    if [[ "$OSTYPE" == "linux-gnu" ]]; then
-        ip="$(hostname)";
-    elif [[ "$OSTYPE" == "darwin"* ]]; then
-        ip="$(hostname)";
-    else
-    fi
-    local color_reset="%{$reset_color%}";
-    echo "${color}[%n@${ip}]${color_reset}";
+    echo "${color}🧔🏻 ${color_reset} ${rocket} ${color}${color_reset}";
 }
 
 function directory() {
@@ -26,10 +13,25 @@ function directory() {
     echo "📁${color}${directory}${color_reset}";
 }
 
+function node_version() {
+    local color="%{$fg_no_bold[yellow]%}";
+    local version=$(node --version);
+    local color_reset="%{$reset_color%}";
+    echo "${color}⬢ Node.js ${version}${color_reset}";
+}
+
+function environment_info() {
+    local project_name="MiProyecto"
+    local environment="Desarrollo"
+    local color="%{$fg_no_bold[magenta]%}"
+    local color_reset="%{$reset_color%}"
+    echo "${color}🌟 ${project_name} (${environment})${color_reset}"
+}
+
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_no_bold[red]%}[%{$fg_no_bold[yellow]%}";
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} ";
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg_no_bold[red]%}] 🔥";
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_no_bold[red]%}] 💚";
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg_no_bold[red]%}] 🚧";
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_no_bold[red]%}] ✅";
 
 function update_git_status() {
     GIT_STATUS=$(git_prompt_info);
@@ -58,26 +60,38 @@ function command_status() {
     echo "${COMMAND_STATUS}"
 }
 
+function command_duration() {
+    local duration="%{$fg_no_bold[white]%}⏱"
+    local color_reset="%{$reset_color%}"
+    local end_time=$(date +%s)
+    local duration_seconds=$((end_time - COMMAND_TIME_BEGIN))
+    local duration_formatted=$(TZ=UTC0 printf '%(%H:%M:%S)T' $duration_seconds)
+    echo "${duration}${duration_formatted}${color_reset} "
+}
+
 output_command_execute_after() {
-    if [ "$COMMAND_TIME_BEIGIN" = "-20200325" ] || [ "$COMMAND_TIME_BEIGIN" = "" ];
-    then
-        return 1;
+    if [ "$COMMAND_TIME_BEGIN" = "" ]; then
+        COMMAND_TIME_BEGIN=$(date +%s)
+        return 1
     fi
 
-    local cmd="${$(fc -l | tail -1)#*  }";
-    local color_cmd="";
-    if $1;
-    then
-        color_cmd="$fg_no_bold[green]";
-    else
-        color_cmd="$fg_bold[red]";
+    if [ "$COMMAND_TIME_BEGIN" = "-20200325" ] || [ "$COMMAND_TIME_BEGIN" = "" ]; then
+        return 1
     fi
-    local color_reset="$reset_color";
+
+    local cmd="${$(fc -l | tail -1)#*  }"
+    local color_cmd=""
+    if $1; then
+        color_cmd="$fg_no_bold[green]"
+    else
+        color_cmd="$fg_bold[red]"
+    fi
+    local color_reset="$reset_color"
     cmd="${color_cmd}${cmd}${color_reset}"
 
     local time="[$(date +%H:%M:%S)]"
-    local color_time="$fg_no_bold[cyan]";
-    time="${color_time}${time}${color_reset}";
+    local color_time="$fg_no_bold[cyan]"
+    time="${color_time}${time}${color_reset}"
 }
 
 
@@ -107,4 +121,4 @@ TRAPALRM() {
     fi
 }
 
-PROMPT='$(real_time) $(directory) $(git_status)$(command_status) ';
+PROMPT='$(real_time) $(directory) $(git_status) $(node_version) $(environment_info) $(command_status) '
