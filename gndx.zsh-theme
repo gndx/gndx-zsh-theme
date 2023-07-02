@@ -22,7 +22,38 @@ function update_git_status() {
 }
 
 function git_status() {
-    echo "${GIT_STATUS}${color_reset}"
+  local status=$(git status --porcelain 2> /dev/null)
+  local color_reset="%{$reset_color%}"
+  local output=""
+
+  if [[ -n $status ]]; then
+    output="${ZSH_THEME_GIT_PROMPT_PREFIX}${ZSH_THEME_GIT_PROMPT_DIRTY}${ZSH_THEME_GIT_PROMPT_SUFFIX}"
+  else
+    output="${ZSH_THEME_GIT_PROMPT_PREFIX}${ZSH_THEME_GIT_PROMPT_CLEAN}${ZSH_THEME_GIT_PROMPT_SUFFIX}"
+  fi
+
+  local icon_added="✚"
+  local icon_modified="📝"
+  local icon_deleted="🗑️"
+  local icon_untracked="❓"
+
+  if [[ $status == *M* ]]; then
+    output="${output} ${icon_modified}"
+  fi
+
+  if [[ $status == *A* ]]; then
+    output="${output} ${icon_added}"
+  fi
+
+  if [[ $status == *D* ]]; then
+    output="${output} ${icon_deleted}"
+  fi
+
+  if [[ $status == *??* ]]; then
+    output="${output} ${icon_untracked}"
+  fi
+
+  echo "${output}${color_reset}"
 }
 
 function update_command_status() {
