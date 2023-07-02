@@ -9,14 +9,14 @@ function directory() {
     local color="%{$fg_no_bold[white]%}";
     local directory="${PWD/#$HOME/~}";
     local color_reset="%{$reset_color%}";
-    echo "📁${color}${directory}${color_reset}";
+    echo "📁${color}${directory}${color_reset} "
 }
 
 function node_version() {
     local color="%{$fg_no_bold[green]%}"
     local version=$(node --version);
     local color_reset="%{$reset_color%}";
-    echo "${color} ⬢ Node ${version}${color_reset}";
+    echo "${color}⬢ Node ${version}${color_reset} "
 }
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_no_bold[red]%}[%{$fg_no_bold[yellow]%}";
@@ -29,7 +29,7 @@ function update_git_status() {
 }
 
 function git_status() {
-    echo "${GIT_STATUS}"
+    echo "${GIT_STATUS}${color_reset}"
 }
 
 function update_command_status() {
@@ -112,4 +112,4 @@ TRAPALRM() {
     fi
 }
 
-PROMPT='$(real_time) $(directory) $(git_status) $(node_version) $(command_status) '
+PROMPT='$(command_duration) $(real_time) $(directory) $(git_status) $(node_version) $(command_status)'
