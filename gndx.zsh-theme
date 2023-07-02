@@ -1,24 +1,24 @@
 function directory() {
-    local color="%{$fg_no_bold[white]%}";
-    local directory="${PWD/#$HOME/~}";
-    local color_reset="%{$reset_color%}";
+    local color="%F{white}"
+    local directory="${PWD/#$HOME/~}"
+    local color_reset="%f"
     echo "📁${color}${directory}${color_reset} "
 }
 
 function node_version() {
-    local color="%{$fg_no_bold[green]%}"
-    local version=$(node --version);
-    local color_reset="%{$reset_color%}";
+    local color="%F{green}"
+    local version=$(node --version)
+    local color_reset="%f"
     echo "${color}⬢ Node ${version}${color_reset} "
 }
 
-ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_no_bold[red]%}[%{$fg_no_bold[yellow]%}";
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} ";
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg_no_bold[red]%}] 🚧";
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_no_bold[red]%}] ✅";
+ZSH_THEME_GIT_PROMPT_PREFIX="%F{red}[%F{yellow}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%f] "
+ZSH_THEME_GIT_PROMPT_DIRTY="%F{red}] 🚧"
+ZSH_THEME_GIT_PROMPT_CLEAN="%F{red}] ✅"
 
 function update_git_status() {
-    GIT_STATUS=$(git_prompt_info);
+    GIT_STATUS=$(git_prompt_info)
 }
 
 function git_status() {
@@ -26,19 +26,18 @@ function git_status() {
 }
 
 function update_command_status() {
-    local arrow="";
-    local color_reset="%{$reset_color%}";
-    local reset_font="%{$fg_no_bold[white]%}";
-    if $1;
-    then
-        arrow="%{$fg_bold[yellow]%}⚡";
+    local arrow=""
+    local color_reset="%f"
+    local reset_font="%F{white}"
+    if $1; then
+        arrow="%F{yellow}⚡"
     else
-        arrow="%{$fg_bold[red]%}⚡";
+        arrow="%F{red}⚡"
     fi
-    COMMAND_STATUS="${arrow}${reset_font}${color_reset} ";
+    COMMAND_STATUS="${arrow}${reset_font}${color_reset} "
 }
 
-update_command_status true;
+update_command_status true
 
 function command_status() {
     echo "${COMMAND_STATUS}"
@@ -57,53 +56,53 @@ output_command_execute_after() {
     local cmd="${$(fc -l | tail -1)#*  }"
     local color_cmd=""
     if $1; then
-        color_cmd="%{$fg_no_bold[green]%}"
+        color_cmd="%F{green}"
     else
-        color_cmd="%{$fg_bold[red]%}"
+        color_cmd="%F{red}"
     fi
-    local color_reset="%{$reset_color%}"
+    local color_reset="%f"
     cmd="${color_cmd}${cmd}${color_reset}"
 
     local time="[$(date +%H:%M:%S)]"
-    local color_time="%{$fg_no_bold[cyan]%}"
+    local color_time="%F{cyan}"
     time="${color_time}${time}${color_reset}"
 }
 
 function docker_container_count() {
-    local count=$(docker ps -q | wc -l);
-    echo "%{$fg_no_bold[magenta]%}🐳 Docker Containers: ${count}%{$reset_color%} "
+    local count=$(docker ps -q | wc -l)
+    echo "%F{magenta}🐳 Docker Containers: ${count}%f "
 }
 
 function docker_image_count() {
-    local count=$(docker images -q | wc -l);
-    echo "%{$fg_no_bold[blue]%}📦 Docker Images: ${count}%{$reset_color%} "
+    local count=$(docker images -q | wc -l)
+    echo "%F{blue}📦 Docker Images: ${count}%f "
 }
 
 precmd() {
-    local last_cmd_return_code=$?;
-    local last_cmd_result=true;
-    if [ "$last_cmd_return_code" = "0" ];
-    then
-        last_cmd_result=true;
+    local last_cmd_return_code=$?
+    local last_cmd_result=true
+    if [ "$last_cmd_return_code" = "0" ]; then
+        last_cmd_result=true
     else
-        last_cmd_result=false;
+        last_cmd_result=false
     fi
 
-    update_git_status;
+    update_git_status
 
-    update_command_status $last_cmd_result;
+    update_command_status $last_cmd_result
 
-    output_command_execute_after $last_cmd_result;
-    docker_container_count;
-    docker_image_count;
+    output_command_execute_after $last_cmd_result
+
+    docker_container_count
+    docker_image_count
 }
 
-setopt PROMPT_SUBST;
+setopt PROMPT_SUBST
 
-TMOUT=1;
+TMOUT=1
 TRAPALRM() {
-    if [ "$WIDGET" = "" ] || [ "$WIDGET" = "accept-line" ] ; then
-        zle reset-prompt;
+    if [ "$WIDGET" = "" ] || [ "$WIDGET" = "accept-line" ]; then
+        zle reset-prompt
     fi
 }
 
