@@ -78,13 +78,6 @@ function docker_image_count() {
     echo "%F{blue}📦 Docker Images: ${count}%f "
 }
 
-function pending_migrations() {
-    local migrations=$(npx prisma migrate status --json | jq -r '.pending.length')
-    local color="%{$fg_no_bold[yellow]%}"
-    local color_reset="%{$reset_color%}"
-    echo "${color}⚙️ Pending Migrations: ${migrations}${color_reset} "
-}
-
 precmd() {
     local last_cmd_return_code=$?
     local last_cmd_result=true
@@ -110,4 +103,4 @@ TRAPALRM() {
     fi
 }
 
-PROMPT='$(directory)$(docker_container_count)$(docker_image_count)$(git_status)$(node_version)$(pending_migrations)$(command_status)'
+PROMPT='$(directory)$(docker_container_count)$(docker_image_count)$(git_status)$(node_version)$(command_status)'
