@@ -67,21 +67,18 @@ output_command_execute_after() {
     local time="[$(date +%H:%M:%S)]"
     local color_time="%{$fg_no_bold[cyan]%}"
     time="${color_time}${time}${color_reset}"
-}
+}´
 
 function docker_container_count() {
     local count=$(docker ps -q | wc -l);
-    local color="%{$fg_no_bold[magenta]%}";
-    local color_reset="%{$reset_color%}";
-    echo "${color}🐳 Docker Containers: ${count}${color_reset} "
+    echo "%{$fg_no_bold[magenta]%}🐳 Docker Containers: ${count}%{$reset_color%} "
 }
 
 function docker_image_count() {
     local count=$(docker images -q | wc -l);
-    local color="%{$fg_no_bold[blue]%}";
-    local color_reset="%{$reset_color%}";
-    echo "${color}📦 Docker Images: ${count}${color_reset} "
+    echo "%{$fg_no_bold[blue]%}📦 Docker Images: ${count}%{$reset_color%} "
 }
+
 
 
 precmd() {
@@ -115,5 +112,5 @@ TRAPALRM() {
     fi
 }
 
-PROMPT='$(directory) $(git_status) $(node_version) $(command_status) $(docker_container_count) $(docker_image_count)'
+PROMPT='$(directory)$(docker_container_count)$(docker_image_count)$(git_status)$(node_version)$(command_status)'
 
