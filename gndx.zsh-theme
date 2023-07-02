@@ -38,11 +38,11 @@ function update_command_status() {
     local reset_font="%{$fg_no_bold[white]%}";
     if $1;
     then
-        arrow="%{$fg_bold[yellow]%}❱%{$fg_bold[blue]%}❱%{$fg_bold[red]%}❱";
+        arrow="%{$fg_bold[yellow]%}⚡";
     else
         arrow="%{$fg_bold[red]%}⚡";
     fi
-    COMMAND_STATUS="${arrow}${reset_font}${color_reset}";
+    COMMAND_STATUS="${arrow}${reset_font}${color_reset} ";
 }
 
 update_command_status true;
