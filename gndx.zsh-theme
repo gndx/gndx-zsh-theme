@@ -22,11 +22,11 @@ function update_git_status() {
 }
 
 function git_status() {
-  local status=$(git status --porcelain 2> /dev/null)
+  local git_status=$(git status --porcelain 2> /dev/null)
   local color_reset="%{$reset_color%}"
   local output=""
 
-  if [[ -n $status ]]; then
+  if [[ -n $git_status ]]; then
     output="${ZSH_THEME_GIT_PROMPT_PREFIX}${ZSH_THEME_GIT_PROMPT_DIRTY}${ZSH_THEME_GIT_PROMPT_SUFFIX}"
   else
     output="${ZSH_THEME_GIT_PROMPT_PREFIX}${ZSH_THEME_GIT_PROMPT_CLEAN}${ZSH_THEME_GIT_PROMPT_SUFFIX}"
@@ -37,24 +37,25 @@ function git_status() {
   local icon_deleted="🗑️"
   local icon_untracked="❓"
 
-  if [[ $status == *M* ]]; then
+  if [[ $git_status == *M* ]]; then
     output="${output} ${icon_modified}"
   fi
 
-  if [[ $status == *A* ]]; then
+  if [[ $git_status == *A* ]]; then
     output="${output} ${icon_added}"
   fi
 
-  if [[ $status == *D* ]]; then
+  if [[ $git_status == *D* ]]; then
     output="${output} ${icon_deleted}"
   fi
 
-  if [[ $status == *??* ]]; then
+  if [[ $git_status == *??* ]]; then
     output="${output} ${icon_untracked}"
   fi
 
   echo "${output}${color_reset}"
 }
+
 
 function update_command_status() {
     local arrow="";
