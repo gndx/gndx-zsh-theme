@@ -1,9 +1,3 @@
-function real_time() {
-    local color="%{$fg_no_bold[cyan]%}";
-    local color_reset="%{$reset_color%}";
-    echo "${color}$(date +%H:%M:%S)${color_reset}"
-}
-
 function directory() {
     local color="%{$fg_no_bold[white]%}";
     local directory="${PWD/#$HOME/~}";
@@ -102,4 +96,4 @@ TRAPALRM() {
     fi
 }
 
-PROMPT='$(real_time) $(directory) $(git_status) $(node_version) $(command_status)'
+PROMPT='$(directory) $(git_status) $(node_version) $(command_status)'
