@@ -1,8 +1,7 @@
 function real_time() {
     local color="%{$fg_no_bold[cyan]%}";
-    local color2="%{$fg_no_bold[yellow]%}";
     local color_reset="%{$reset_color%}";
-    echo "${color}${color_reset} ${color}${color_reset}";
+    echo "${color}$(date +%H:%M:%S)${color_reset}"
 }
 
 function directory() {
@@ -73,15 +72,15 @@ output_command_execute_after() {
     local cmd="${$(fc -l | tail -1)#*  }"
     local color_cmd=""
     if $1; then
-        color_cmd="$fg_no_bold[green]"
+        color_cmd="%{$fg_no_bold[green]%}"
     else
-        color_cmd="$fg_bold[red]"
+        color_cmd="%{$fg_bold[red]%}"
     fi
-    local color_reset="$reset_color"
+    local color_reset="%{$reset_color%}"
     cmd="${color_cmd}${cmd}${color_reset}"
 
     local time="[$(date +%H:%M:%S)]"
-    local color_time="$fg_no_bold[cyan]"
+    local color_time="%{$fg_no_bold[cyan]%}"
     time="${color_time}${time}${color_reset}"
 }
 
