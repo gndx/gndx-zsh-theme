@@ -33,6 +33,8 @@ function git_problema() {
         if [ "$rebase_in_progress" = "true" ] || [ -d "$rebase_merge_dir" ]; then
             local conflicts=$(git ls-files --unmerged | awk '{if (++count[$2] > 1) print $2}' | sort -u)
 
+            echo "Conflicts: $conflicts"  # Agregar esta línea para verificar los conflictos
+
             if [ -n "$conflicts" ]; then
                 echo "%F{red}⚠️ REBASE CONFLICTS%f"
             else
@@ -51,6 +53,7 @@ function git_problema() {
         echo "%F{red}%f"
     fi
 }
+
 
 
 
