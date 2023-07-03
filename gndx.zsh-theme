@@ -29,7 +29,7 @@ function git_status() {
     local rebase_in_progress=$(git rev-parse --is-rebase 2>/dev/null)
 
     if [ "$rebase_in_progress" = "true" ]; then
-        local conflicts=$(git ls-files --unmerged | awk '{if (++count[$2] > 1) print $2}' | sort -u)
+        local conflicts=$(git status --porcelain | grep "^UU")
 
         if [ -n "$conflicts" ]; then
             echo "%F{red}] ⚠️ REBASE CONFLICTS %f"
@@ -46,8 +46,6 @@ function git_status() {
         fi
     fi
 }
-
-
 
 function git_stash_count() {
     local count=$(git stash list 2>/dev/null | wc -l)
