@@ -1,4 +1,4 @@
-# gndx-zsh-theme GIT
+# gndx-zsh-theme GIT HOLA
 An oh-my-zsh theme.
 
 ## Introducion
