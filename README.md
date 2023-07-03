@@ -1,4 +1,4 @@
-# gndx-zsh-theme GIT
+# gndx-zsh-theme GIT CAMBIOS EN REMOTO
 An oh-my-zsh theme.
 
 ## Introducion
