@@ -25,7 +25,7 @@ function git_status() {
     echo "${GIT_STATUS}${color_reset}"
 }
 
-function git_status() {
+function git_problema() {
     local rebase_in_progress=$(git rev-parse --is-rebase 2>/dev/null)
 
     if [ "$rebase_in_progress" = "true" ]; then
