@@ -34,21 +34,21 @@ function git_problema() {
             local conflicts=$(git ls-files --unmerged | awk '{if (++count[$2] > 1) print $2}' | sort -u)
 
             if [ -n "$conflicts" ]; then
-                echo "%F{red}] ⚠️ REBASE CONFLICTS %f"
+                echo "%F{red}⚠️ REBASE CONFLICTS%f"
             else
-                echo "%F{red}] 🌱 REBASE IN PROGRESS %f"
+                echo "%F{red}🌱 REBASE IN PROGRESS%f"
             fi
         else
             local merge_in_progress=$(git rev-parse --is-merge 2>/dev/null)
 
             if [ "$merge_in_progress" = "true" ]; then
-                echo "%F{red}] ⚡ MERGE IN PROGRESS %f"
+                echo "%F{red}⚡ MERGE IN PROGRESS%f"
             else
-                echo "%F{red}] %f"
+                echo "%F{red}%f"
             fi
         fi
     else
-        echo "%F{red}] %f"
+        echo "%F{red}%f"
     fi
 }
 
