@@ -1,4 +1,4 @@
-# gndx-zsh-theme fasdfafasdfasdfasfholafdsafa
+# gndx-zsh-theme GIT
 An oh-my-zsh theme.
 
 ## Introducion
