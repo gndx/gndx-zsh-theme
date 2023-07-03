@@ -26,27 +26,32 @@ function git_status() {
 }
 
 function git_problema() {
-    local rebase_in_progress=$(git rev-parse --is-rebase 2>/dev/null)
-    local rebase_merge_dir=$(git rev-parse --git-dir)/rebase-merge
+    if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        local rebase_in_progress=$(git rev-parse --is-rebase 2>/dev/null)
+        local rebase_merge_dir=$(git rev-parse --git-dir)/rebase-merge
 
-    if [ "$rebase_in_progress" = "true" ] || [ -d "$rebase_merge_dir" ]; then
-        local conflicts=$(git ls-files --unmerged | awk '{if (++count[$2] > 1) print $2}' | sort -u)
+        if [ "$rebase_in_progress" = "true" ] || [ -d "$rebase_merge_dir" ]; then
+            local conflicts=$(git ls-files --unmerged | awk '{if (++count[$2] > 1) print $2}' | sort -u)
 
-        if [ -n "$conflicts" ]; then
-            echo "%F{red}] ⚠️ REBASE CONFLICTS %f"
+            if [ -n "$conflicts" ]; then
+                echo "%F{red}] ⚠️ REBASE CONFLICTS %f"
+            else
+                echo "%F{red}] 🌱 REBASE IN PROGRESS %f"
+            fi
         else
-            echo "%F{red}] 🌱 REBASE IN PROGRESS %f"
+            local merge_in_progress=$(git rev-parse --is-merge 2>/dev/null)
+
+            if [ "$merge_in_progress" = "true" ]; then
+                echo "%F{red}] ⚡ MERGE IN PROGRESS %f"
+            else
+                echo "%F{red}] %f"
+            fi
         fi
     else
-        local merge_in_progress=$(git rev-parse --is-merge 2>/dev/null)
-
-        if [ "$merge_in_progress" = "true" ]; then
-            echo "%F{red}] ⚡ MERGE IN PROGRESS %f"
-        else
-            echo "%F{red}] %f"
-        fi
+        echo "%F{red}] %f"
     fi
 }
+
 
 
 
