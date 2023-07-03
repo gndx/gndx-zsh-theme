@@ -26,9 +26,9 @@ function git_status() {
 }
 
 function git_problema() {
-    local rebase_in_progress=$(git rev-parse --is-rebase 2>/dev/null)
+    local rebase_in_progress=$(git rev-parse --git-path rebase-merge 2>/dev/null)
 
-    if [ "$rebase_in_progress" = "true" ]; then
+    if [ -n "$rebase_in_progress" ] || [ -f "$(git rev-parse --git-path rebase-apply 2>/dev/null)" ]; then
         local conflicts=$(git ls-files --unmerged | awk '{if (++count[$2] > 1) print $2}' | sort -u)
 
         if [ -n "$conflicts" ]; then
@@ -46,6 +46,7 @@ function git_problema() {
         fi
     fi
 }
+
 
 
 function git_stash_count() {
@@ -133,4 +134,4 @@ TRAPALRM() {
     fi
 }
 
-PROMPT='$(directory)$(git_status)$(git_stash_count)$(node_version)$(command_status)$(git_problema)'
+PROMPT='$(git_problema)$(directory)$(git_status)$(git_stash_count)$(node_version)$(command_status)'
