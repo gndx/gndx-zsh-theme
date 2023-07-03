@@ -21,9 +21,26 @@ function update_git_status() {
     GIT_STATUS=$(git_prompt_info)
 }
 
+# function git_status() {
+#     echo "${GIT_STATUS}${color_reset}"
+# }
+
 function git_status() {
-    echo "${GIT_STATUS}${color_reset}"
+    local rebase_in_progress=$(git rev-parse --is-rebase 2>/dev/null)
+
+    if [ "$rebase_in_progress" = "true" ]; then
+        echo "%F{red}] 🌱 REBASE IN PROGRESS %f"
+    else
+        local merge_in_progress=$(git rev-parse --is-merge 2>/dev/null)
+
+        if [ "$merge_in_progress" = "true" ]; then
+            echo "%F{red}] ⚡ MERGE IN PROGRESS %f"
+        else
+            echo "%F{red}] %f"
+        fi
+    fi
 }
+
 
 function git_stash_count() {
     local count=$(git stash list 2>/dev/null | wc -l)
