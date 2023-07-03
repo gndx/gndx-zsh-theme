@@ -29,7 +29,13 @@ function git_status() {
     local rebase_in_progress=$(git rev-parse --is-rebase 2>/dev/null)
 
     if [ "$rebase_in_progress" = "true" ]; then
-        echo "%F{red}] 🌱 REBASE IN PROGRESS %f"
+        local conflicts=$(git status --porcelain | grep "^UU")
+
+        if [ -n "$conflicts" ]; then
+            echo "%F{red}] ⚠️ REBASE CONFLICTS %f"
+        else
+            echo "%F{red}] 🌱 REBASE IN PROGRESS %f"
+        fi
     else
         local merge_in_progress=$(git rev-parse --is-merge 2>/dev/null)
 
