@@ -31,9 +31,9 @@ function git_problema() {
         local rebase_merge_dir=$(git rev-parse --git-dir)/rebase-merge
 
         if [ "$rebase_in_progress" = "true" ] || [ -d "$rebase_merge_dir" ]; then
-            local conflicts=$(git ls-files --unmerged | awk '{if (++count[$2] > 1) print $2}' | sort -u)
+            local conflicts=$(git diff --name-only --diff-filter=U)
 
-            echo "Conflicts: $conflicts"  # Agregar esta línea para verificar los conflictos
+            echo "Conflicts: $conflicts"
 
             if [ -n "$conflicts" ]; then
                 echo "%F{red}⚠️ REBASE CONFLICTS%f"
@@ -53,10 +53,6 @@ function git_problema() {
         echo "%F{red}%f"
     fi
 }
-
-
-
-
 
 function git_stash_count() {
     local count=$(git stash list 2>/dev/null | wc -l)
