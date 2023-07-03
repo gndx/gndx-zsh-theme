@@ -25,6 +25,13 @@ function git_status() {
     echo "${GIT_STATUS}${color_reset}"
 }
 
+function git_stash_count() {
+    local count=$(git stash list 2>/dev/null | wc -l)
+    if [ "$count" -gt 0 ]; then
+        echo "%F{yellow}⚑ Stash: ${count}%f "
+    fi
+}
+
 function update_command_status() {
     local arrow=""
     local color_reset="%f"
@@ -103,4 +110,5 @@ TRAPALRM() {
     fi
 }
 
-PROMPT='$(directory)$(docker_container_count)$(docker_image_count)$(git_status)$(node_version)$(command_status)'
+PROMPT='$(directory)$(git_status)$(git_stash_count)$(node_version)$(command_status)'
+#PROMPT='$(directory)$(docker_container_count)$(docker_image_count)$(git_status)$(node_version)$(command_status)'
