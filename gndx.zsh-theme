@@ -66,22 +66,26 @@ function git_cambios_remotos() {
 
     # Verificar cambios en la rama remota 'develop'
     git fetch origin develop >/dev/null 2>&1
-    if [ $(git rev-list --count HEAD..origin/develop) -gt 0 ]; then
+    local develop_changes=$(git rev-list --count HEAD..origin/develop 2>/dev/null)
+    if [[ "$develop_changes" && "$develop_changes" -gt 0 ]]; then
         remote_changes=1
     fi
 
     # Verificar cambios en la rama remota 'main'
     git fetch origin main >/dev/null 2>&1
-    if [ $(git rev-list --count HEAD..origin/main) -gt 0 ]; then
+    local main_changes=$(git rev-list --count HEAD..origin/main 2>/dev/null)
+    if [[ "$main_changes" && "$main_changes" -gt 0 ]]; then
         remote_changes=1
     fi
 
-    if [ $remote_changes -eq 1 ]; then
+    if [ "$remote_changes" -eq 1 ]; then
         echo "%F{red}🔀 REMOTE CHANGES%f"
     else
         echo "%F{green}✔️ NO REMOTE CHANGES%f"
     fi
 }
+
+
 
 function update_command_status() {
     local arrow=""
