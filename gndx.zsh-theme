@@ -26,9 +26,10 @@ function git_status() {
 }
 
 function git_problema() {
-    local rebase_in_progress=$(git rev-parse --git-path rebase-merge 2>/dev/null)
+    local rebase_in_progress=$(git rev-parse --is-rebase 2>/dev/null)
+    local rebase_merge_dir=$(git rev-parse --git-dir)/rebase-merge
 
-    if [ -n "$rebase_in_progress" ] || [ -f "$(git rev-parse --git-path rebase-apply 2>/dev/null)" ]; then
+    if [ "$rebase_in_progress" = "true" ] || [ -d "$rebase_merge_dir" ]; then
         local conflicts=$(git ls-files --unmerged | awk '{if (++count[$2] > 1) print $2}' | sort -u)
 
         if [ -n "$conflicts" ]; then
