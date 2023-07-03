@@ -21,13 +21,12 @@ function update_git_status() {
     GIT_STATUS=$(git_prompt_info)
 }
 
-# function git_status() {
-#     echo "${GIT_STATUS}${color_reset}"
-# }
-
 function git_status() {
-    local rebase_in_progress=$(git rev-parse --is-rebase 2>/dev/null)
+    echo "${GIT_STATUS}${color_reset}"
+}
 
+function git_problema() {
+    local rebase_in_progress=$(git rev-parse --is-rebase 2>/dev/null)
     if [ "$rebase_in_progress" = "true" ]; then
         local conflicts=$(git status --porcelain | grep "^UU")
 
@@ -132,4 +131,4 @@ TRAPALRM() {
     fi
 }
 
-PROMPT='$(directory)$(git_status)$(git_stash_count)$(node_version)$(command_status)'
+PROMPT='$(directory)$(git_status)$(git_stash_count)$(node_version)$(command_status)$(git_problema)'
