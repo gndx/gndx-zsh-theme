@@ -64,19 +64,17 @@ function git_stash_count() {
 function git_cambios_remotos() {
     local remote_changes=0
 
-    # Verificar cambios en la rama remota 'develop'
-    git fetch origin develop >/dev/null 2>&1
-    local develop_changes=$(git rev-list --count HEAD..origin/develop 2>/dev/null)
-    if [[ "$develop_changes" && "$develop_changes" -gt 0 ]]; then
-        remote_changes=1
-    fi
+    async -p -0 {
+        # Verificar cambios en la rama remota 'develop'
+        git fetch origin develop >/dev/null 2>&1
+        local develop_changes=$(git rev-list --count HEAD..origin/develop 2>/dev/null)
+        if [[ "$develop_changes" && "$develop_changes" -gt 0 ]]; then
+            remote_changes=1
+        fi
+    }
 
-    # Verificar cambios en la rama remota 'main'
-    git fetch origin main >/dev/null 2>&1
-    local main_changes=$(git rev-list --count HEAD..origin/main 2>/dev/null)
-    if [[ "$main_changes" && "$main_changes" -gt 0 ]]; then
-        remote_changes=1
-    fi
+    # Esperar a que la consulta en segundo plano finalice
+    wait
 
     if [ "$remote_changes" -eq 1 ]; then
         echo "%F{red}🔀 REMOTE CHANGES%f"
@@ -84,6 +82,7 @@ function git_cambios_remotos() {
         echo "%F{green}✔️ NO REMOTE CHANGES%f"
     fi
 }
+
 
 
 
