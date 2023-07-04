@@ -1,4 +1,4 @@
-# gndx-zsh-theme hola desde git remoto aaa
+# gndx-zsh-theme hola desde git remoto aaabbb
 An oh-my-zsh theme.
 
 ## Introducion
