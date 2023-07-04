@@ -60,11 +60,9 @@ function git_stash_count() {
         echo "%F{yellow}⚑ Stash: ${count}%f "
     fi
 }
-
 function git_cambios_remotos() {
     local remote_changes=0
 
-    async -p -0 
     {
         # Verificar cambios en la rama remota 'develop'
         git fetch origin develop >/dev/null 2>&1
@@ -72,7 +70,7 @@ function git_cambios_remotos() {
         if [[ "$develop_changes" && "$develop_changes" -gt 0 ]]; then
             remote_changes=1
         fi
-    }
+    } &
 
     # Esperar a que la consulta en segundo plano finalice
     wait
