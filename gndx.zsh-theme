@@ -64,7 +64,8 @@ function git_stash_count() {
 function git_cambios_remotos() {
     local remote_changes=0
 
-    async -p -0 {
+    async -p -0 
+    {
         # Verificar cambios en la rama remota 'develop'
         git fetch origin develop >/dev/null 2>&1
         local develop_changes=$(git rev-list --count HEAD..origin/develop 2>/dev/null)
@@ -82,7 +83,6 @@ function git_cambios_remotos() {
         echo "%F{green}✔️ NO REMOTE CHANGES%f"
     fi
 }
-
 
 
 
